@@ -85,7 +85,7 @@ setInterval(function () {
   }
 }, 1000);
 
-// textArea character limit
+//! textArea character limit
 
 $(textArea).on("keydown", function (e) {
   let number = 100 - $(this).val().length;
@@ -100,11 +100,30 @@ $(textArea).on("keydown", function (e) {
 
 $(textArea).on("input", function () {
   let number = 100 - $(this).val().length;
-  console.log(number);
   box = `<span class="text-danger fs-5">${number} </span> Characyer Reamining`;
   document.getElementById("numberLimit").innerHTML = box;
   if (number <= 0) {
     box = `<span class="text-danger fs-5">your available character finished </span> Characyer Reamining`;
     document.getElementById("numberLimit").innerHTML = box;
   }
+});
+
+$(document).ready(() => {
+  const textArea = $("#textArea");
+  const numberLimit = $("#numberLimit");
+
+  textArea.on("input", function () {
+    let number = 100 - $(this).val().length;
+    let message;
+
+    if (number > 0) {
+      message = `<span class="text-danger fs-5">${number} </span> Characters Remaining`;
+    } else {
+      message = `<span class="text-danger fs-5">Your available characters are finished</span>`;
+      $(this).val($(this).val().substring(0, 100));
+      number = 0; // Reset number to zero for consistent display
+    }
+
+    numberLimit.html(message);
+  });
 });
